@@ -8,9 +8,17 @@ from pygame.display import *
 ##### Cores ######
 preto = (0, 0, 0)
 branco = (255, 255, 255)
+rosa = (255, 179, 255)
 ##################
 
+###### Distancia #########
+def distancia(x, y, x2, y2):
+	distancia = math.sqrt(((x2 - x) ** 2) + ((y2 - y) ** 2))
+	return distancia
+##########################
+
 ##### Cobra ######
+raio_cobra = 7.5
 x = 400
 y = 300
 corpo = pygame.Surface((15, 15))
@@ -26,20 +34,23 @@ def cobrinha():
 		y -= 3
 	elif key[pygame.K_DOWN]:
 		y += 3
-	tela.blit(corpo, (x, y))
-
+	tela.blit(corpo, (x - raio_cobra, y - raio_cobra))
 ##################
 
 ###### Comida da Cobra ########
+raio_cCobra = 4
+nova_comida = True
 x2 = 0
 y2 = 0
 comp = pygame.Surface((8, 8))
-comp.fill(branco)
+comp.fill(rosa)
 def comida():
-	global x2, y2, comp
-	x2 = random.randint(15, 785)
-	y2 = random.randint(15, 585)
-	tela.blit(comp, (x2, y2))
+	global x2, y2, comp, nova_comida
+	if nova_comida:
+		x2 = random.randint(15, 785)
+		y2 = random.randint(15, 585)
+		nova_comida = False
+	tela.blit(comp, (x2 - raio_cCobra, y2 - raio_cCobra))
 ###############################
 
 dimensao = (800, 600)
@@ -57,8 +68,13 @@ while counter:
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			counter = False
-	cobrinha()
+	
 	comida()
+	cobrinha()
+
+	if distancia(x, y, x2, y2) < (raio_cobra + raio_cCobra):
+		nova_comida = True
+
 
 	pygame.display.flip()
 sys.exit()
