@@ -30,6 +30,18 @@ def cobrinha():
 
 ##################
 
+###### Comida da Cobra ########
+x2 = 0
+y2 = 0
+comp = pygame.Surface((8, 8))
+comp.fill(branco)
+def comida():
+	global x2, y2, comp
+	x2 = random.randint(15, 785)
+	y2 = random.randint(15, 585)
+	tela.blit(comp, (x2, y2))
+###############################
+
 dimensao = (800, 600)
 tela = pygame.display.set_mode(dimensao)
 tela.fill(preto)
@@ -46,6 +58,7 @@ while counter:
 		if event.type == QUIT:
 			counter = False
 	cobrinha()
+	comida()
 
 	pygame.display.flip()
 sys.exit()
